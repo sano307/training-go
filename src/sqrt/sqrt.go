@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-var epsilon float64 = 0.0000001
+const epsilon float64 = 1e-9
 
 func main() {
 	a, aCount := sqrt(2)
@@ -22,6 +22,26 @@ func main() {
 	fmt.Println(d, "count:", dCount)
 }
 
+func sqrt(x float64) (float64, int) {
+	z := 1.0
+	p := z
+	count := 0
+
+	for {
+		z = z - (z*z-x)/(2*z)
+
+		if math.Abs(z-p) < epsilon {
+			break
+		}
+
+		count++
+		p = z
+	}
+
+	return z, count
+}
+
+/*
 func sqrt(x float64) (float64, int) {
 	var z, before, after float64 = 1.0, 0.0, 0.0
 
@@ -57,3 +77,4 @@ func nearlyEqual(before, after, epsilon float64) bool {
 		return diff/math.Min((absBefore+absAfter), math.MaxFloat64) < epsilon
 	}
 }
+*/
